@@ -23,7 +23,7 @@ class UserFixtures extends Fixture
 //        $encodedPassword = $this->hasher->hashPassword($User, "user");
 //        $User->setPassword($encodedPassword);
 //        $User->setNom("user");
-//        $User->setPrénom("user");
+//        $User->setPrenom("user");
 //        $User->setPhoto("uploads/batman.jpg");
 //        $User->setContrat("CDI");
 //        $User->setSecteur("Informatique");
@@ -35,7 +35,7 @@ class UserFixtures extends Fixture
         $encodedPassword = $this->hasher->hashPassword($Admin_rh, "rh123@");
         $Admin_rh->setPassword($encodedPassword);
         $Admin_rh->setNom("Admin_rh");
-        $Admin_rh->setPrénom("user");
+        $Admin_rh->setPrenom("user");
         $Admin_rh->setPhoto("uploads/joker.jpg");
         $Admin_rh->setContrat("CDI");
         $Admin_rh->setSecteur("RH");
