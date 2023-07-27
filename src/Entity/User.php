@@ -73,6 +73,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+    public function hasRole($role){
+        $return = false;
+
+        foreach ($this->roles as $roleParcours){
+            if($role == $roleParcours){
+                $return = true;
+            }
+        }
+
+        return $return;
+    }
+
+
     /**
      * @see UserInterface
      */
