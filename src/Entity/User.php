@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,6 +27,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $prénom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $photo = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $secteur = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $contrat = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_sortie = null;
 
     public function getId(): ?int
     {
@@ -95,5 +114,77 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrénom(): ?string
+    {
+        return $this->prénom;
+    }
+
+    public function setPrénom(string $prénom): static
+    {
+        $this->prénom = $prénom;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): static
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getSecteur(): ?string
+    {
+        return $this->secteur;
+    }
+
+    public function setSecteur(string $secteur): static
+    {
+        $this->secteur = $secteur;
+
+        return $this;
+    }
+
+    public function getContrat(): ?string
+    {
+        return $this->contrat;
+    }
+
+    public function setContrat(string $contrat): static
+    {
+        $this->contrat = $contrat;
+
+        return $this;
+    }
+
+    public function getDateSortie(): ?\DateTimeInterface
+    {
+        return $this->date_sortie;
+    }
+
+    public function setDateSortie(?\DateTimeInterface $date_sortie): static
+    {
+        $this->date_sortie = $date_sortie;
+
+        return $this;
     }
 }
