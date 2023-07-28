@@ -23,8 +23,9 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_RH')]
+
     #[Route('new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_RH')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -36,7 +37,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
 //            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-            return $this->redirectToRoute('app_genre_index', [], Response::HTTP_OK);
+            return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
         }
 
         return $this->render('user/new.html.twig', [
@@ -46,6 +47,7 @@ class UserController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
@@ -54,8 +56,9 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_RH')]
+
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_RH')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -65,7 +68,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
 //            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-            return $this->redirectToRoute('app_genre_index', [], Response::HTTP_OK);
+            return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
         }
 
         return $this->render('user/edit.html.twig', [
@@ -75,8 +78,9 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_RH')]
+
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_RH')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
@@ -85,6 +89,6 @@ class UserController extends AbstractController
         }
 
 //        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        return $this->redirectToRoute('app_genre_index', [], Response::HTTP_OK);
+        return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
     }
 }
