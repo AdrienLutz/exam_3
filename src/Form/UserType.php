@@ -17,7 +17,7 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
+use Symfony\Component\Validator\Constraints\Regex;
 
 
 class UserType extends AbstractType
@@ -28,7 +28,7 @@ class UserType extends AbstractType
         $builder
             ->add('email')
 
-            ->add('mot de passe (8 caractères, 1 chiffre, 1 lettre minimum)', PasswordType::class, [
+            ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -37,11 +37,18 @@ class UserType extends AbstractType
                     new NotBlank([
                         'message' => 'Please enter a password',
                     ]),
-                    new Length([
-                        'min' => 8,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+//                    new Length([
+//                        'min' => 8,
+//
+//
+//                        'minMessage' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
+//                        // max length allowed by Symfony for security reasons
+//                        'max' => 4096,
+//                    ]),
+                    new Regex([
+//                        'pattern' => '/^(?=.[A-Za-z])(?=.\d).{8,}$/',
+                        'pattern' => '/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9!@#$%^&*()_]+){8,20}$"/',
+                        'message' => 'test',
                     ]),
                 ],
             ])
