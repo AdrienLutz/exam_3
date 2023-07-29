@@ -37,18 +37,19 @@ class UserType extends AbstractType
                     new NotBlank([
                         'message' => 'Please enter a password',
                     ]),
-//                    new Length([
-//                        'min' => 8,
-//
-//
-//                        'minMessage' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
-//                        // max length allowed by Symfony for security reasons
-//                        'max' => 4096,
-//                    ]),
+                    new Length([
+                        'min' => 8,
+
+
+                        'minMessage' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
                     new Regex([
 //                        'pattern' => '/^(?=.[A-Za-z])(?=.\d).{8,}$/',
-                        'pattern' => '/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9!@#$%^&*()_]+){8,20}$"/',
-                        'message' => 'test',
+                        'pattern' => '/(?=\S*[a-z])(?=\S*\d)/',
+//                        'pattern' => '/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9!@#$%^&*()_]+){8,20}$"/',
+                        'message' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
                     ]),
                 ],
             ])
