@@ -164,8 +164,8 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-//            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-            return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+//            return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
         }
 
         return $this->render('user/edit.html.twig', [
@@ -185,7 +185,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-//        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+//        return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
     }
 }

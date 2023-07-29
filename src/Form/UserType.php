@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,7 +42,7 @@ class UserType extends AbstractType
                         'min' => 8,
 
 
-                        'minMessage' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
@@ -49,7 +50,7 @@ class UserType extends AbstractType
 //                        'pattern' => '/^(?=.[A-Za-z])(?=.\d).{8,}$/',
                         'pattern' => '/(?=\S*[a-z])(?=\S*\d)/',
 //                        'pattern' => '/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9!@#$%^&*()_]+){8,20}$"/',
-                        'message' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
+                        'message' => 'Your password should contain at least 1 number and 1 letter',
                     ]),
                 ],
             ])
@@ -84,16 +85,32 @@ class UserType extends AbstractType
                 ],
             ])
 
+//            ->add('secteur', TextType::class, [
+//                "attr" => [
+//                    "class" => "form-control",
+//                        ]
+//            ])
 
-            ->add('secteur', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
+//            ->add('contrat', TextType::class, [
+//                "attr" => [
+//                    "class" => "form-control"
+//                ]
+//            ])
+
+            ->add('secteur', ChoiceType::class,[
+                'choices' => [
+                    'RH' => 'rh',
+                    'Informatique' => 'info',
+                    'Comptabilité' => 'compta',
+                    'Direction' => 'dir',
                 ]
             ])
 
-            ->add('contrat', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
+            ->add('contrat', ChoiceType::class,[
+                'choices' => [
+                    'CDI' => 'cdi',
+                    'CDD' => 'cdd',
+                    'Interim' => 'interim',
                 ]
             ])
 

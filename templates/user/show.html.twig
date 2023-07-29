@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <th>Photo</th>
-                <td>{{ user.photo }}</td>
+                <td> <img src="{{ asset('uploads/user/'~user.photo) }}" width="45px" height="45px"></td>
             </tr>
             <tr>
                 <th>Secteur</th>
@@ -50,9 +50,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+    <a href="{{ path('app_user_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+
 
     {{ include('user/_delete_form.html.twig') }}
+
 {% endblock %}
