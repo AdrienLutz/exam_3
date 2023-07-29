@@ -8,17 +8,17 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Photo</th>
-                <th>Secteur</th>
-                <th>Contrat</th>
-                <th>Date_sortie</th>
-                <th>actions</th>
+                <th scope="col">Id</th>
+                <th scope="col">Email</th>
+                <th scope="col">Roles</th>
+{#                <th scope="col">Password</th>#}
+                <th scope="col">Nom</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Photo</th>
+                <th scope="col">Secteur</th>
+                <th scope="col">Contrat</th>
+                <th scope="col">Date_sortie</th>
+                <th scope="col">actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,16 +27,20 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+{#                <td>{{ user.password }}</td>#}
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
-                <td>{{ user.photo }}</td>
+                <td> <img src="{{ asset('uploads/user/'~user.photo) }}" width="45px" height="45px"></td>
                 <td>{{ user.secteur }}</td>
                 <td>{{ user.contrat }}</td>
                 <td>{{ user.dateSortie ? user.dateSortie|date('Y-m-d') : '' }}</td>
                 <td>
+                    {% if app.user is not null %}
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                    {% endif %}
+                    {% if app.user is not null and app.user.hasRole("ROLE_RH")%}
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -46,6 +50,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {% if app.user is not null and app.user.hasRole("ROLE_RH")%}
     <a href="{{ path('app_user_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}

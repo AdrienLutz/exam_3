@@ -44,42 +44,60 @@ class UserController extends AbstractController
 
     #[Route('new', name: 'app_user_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_RH')]
-    public function new(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            $photo = $form->get('photo');
 
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
 
             $photo = $form->get('photo')->getData();
-
-//            if(is_null($photo)){
-//            $error = new FormError("Veuillez uploader une image");
-//            $form->get('image')->addError($error);
-            if ($form->isSubmitted() && $form->isValid()) {
-                // encode the plain password
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
+            if(is_null($photo)){
+            $error = new FormError("Veuillez uploader une image");
+            $form->get('photo')->addError($error);
+                }else {
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
 
 
-                $entityManager->persist($user);
-                $entityManager->flush();
+                try {
+                    $photo->move(
+                        $this->getParameter('photo_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    dd($e);
+                }
+
+                $form = $form->getData();
+                $form->setPhoto($newFilename);
+//                $form->setUserAdd($this->getUser());
+//                $em->persist($form);
+//                $em->flush();
+
+//                return $this->redirectToRoute("app_nft");
+
             }
+
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
 
-//            return $this->redirectToRoute('app_default', [], Response::HTTP_OK);
         }
 
         return $this->render('user/new.html.twig', [
             'user' => $user,
-//            'form' => $form,
             'form' => $form->createView(),
         ]);
     }

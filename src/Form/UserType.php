@@ -24,18 +24,11 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-//        $builder->get('roles')
-//            ->addModelTransformer(new CallbackTransformer(
-//                fn ($rolesAsArray) => count($rolesAsArray) ? $rolesAsArray[0]: null,
-//                fn ($rolesAsString) => [$rolesAsString]
-//            ));
 
         $builder
             ->add('email')
-//            ->add('roles')
-//            ->add('password')
 
-            ->add('plainPassword', PasswordType::class, [
+            ->add('mot de passe (8 caractères, 1 chiffre, 1 lettre minimum)', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -46,7 +39,7 @@ class UserType extends AbstractType
                     ]),
                     new Length([
                         'min' => 8,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Your password should be at least {{ limit }} characters with 1 number and 1 letter',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
