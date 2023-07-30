@@ -6,6 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +21,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+
 
 
 class UserType extends AbstractType
@@ -114,14 +117,35 @@ class UserType extends AbstractType
                 ]
             ])
 
-            ->add('date_sortie')
 
-//            ->add('valider', SubmitType::class, [
+
+
+//            ->add('date_sortie', DateType::class,[
 //                "attr" => [
-//                    "class" => "btn btn-success"
+//                    "class" => "form-control"
 //                ]
 //            ])
+
+            ->add('date_sortie')
+
+            ->add('valider', SubmitType::class, [
+                "attr" => [
+                    "class" => "btn btn-success"
+                ]
+            ])
         ;
+
+//        if ('choices' == 'cdi'){
+////                $builder->add('date_sortie', disabledType::class, [
+//            $builder->add('date_sortie', HiddenType::class, [
+//                'disabled' => 'disabled',
+//            ]);
+//        }
+
+        if('choices' =='cdi'){
+            $builder->remove('date_sortie');
+        }
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
