@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 
 class UserType extends AbstractType
@@ -111,14 +113,34 @@ class UserType extends AbstractType
                 ]
             ])
 
-
-            ->add('date_sortie', DateType::class,[
+            ->add('date_sortie', DateType::class, [
                 "attr" => [
-                    "class" => "form-control"
-                ]
-            ])
+                   "class" => "form-control",
+                    "id" => "end_date"
+                ],
+               'label' => 'Date de fin de contrat',
+               'required' => false,
+               'format' => 'dd-MM-yyyy',
+           ]);
+           $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+               $user = $event->getData();
+               $form = $event->getForm();
+               if (isset($user['contrat']) && in_array($user['contrat'], ['CDD', 'Interim'])) {
+                   $form->add('date_sortie', DateType::class, [
+                       'label' => 'Date de fin de contrat',
+                       'required' => false,
+                       'format' => 'dd-MM-yyyy'
+                   ]);
+               };
+           });
 
-        ;
+            // ->add('date_sortie', DateType::class,[
+            //     "attr" => [
+            //         "class" => "form-control"
+            //     ]
+            // ])
+
+        // ;
 
 //        ----- tentative n°1 de choix conditionnel CDI/date -----
 //        if ('choices' == 'cdi'){

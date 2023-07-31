@@ -1,10 +1,10 @@
 {# ----- formulaire perso qui fonctionne  (sauf CDI/date #}
-{#{{ form_start(form) }}#}
-{#    {{ form_widget(form) }}#}
-{#    <button class="btn btn-success">{{ button_label|default('Valider') }}</button>#}
-{#{{ form_end(form) }}#}
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button class="btn btn-success">{{ button_label|default('Valider') }}</button>
+{{ form_end(form) }}
 
-{# ----- tentative greffe code de Seb ----- #}
+{# ----- formulaire avec CDI/date (pas pu tester chez moi car pas symfony) 
 {{ form_start(form) }}
     {{ form_row(form.email) }}
     {{ form_row(form.plainPassword) }}
@@ -12,9 +12,40 @@
     {{ form_row(form.prenom) }}
     {{ form_row(form.photo) }}
     {{ form_row(form.secteur) }}
+
+ <div id="contract">
+    {{ form_row(form.contrat) }}
+    </div>
+    <div id="end_date" style="display: none;">
+    {{ form_row(form.date_sortie) }}
+    </div>
+    {{ form_end(form) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const contractField = document.querySelector('#{{ form.contrat.vars.id }}');
+        const endDateField = document.querySelector('#end_date');
+
+        const display_end_date = function () {
+            if (contractField.value === 'CDI') {
+                endDateField.style.display = 'none';
+            } else {
+                endDateField.style.display = 'block';
+            }
+        };
+
+        display_end_date();
+
+        contractField.addEventListener('change', function () {
+            display_end_date();
+        });
+    });
+</script>
+
+
     {{ form_row(form.contrat) }}
     {{ form_label(form.date_sortie, 'Date de fin de contrat', {'label_attr': {'class': 'd-none lab'}}) }}
     {{ form_widget(form.date_sortie, {'attr': {'class': 'd-none'}}) }}
 
 <button class="btn btn-primary h3 my-3">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{{ form_end(form) }}#}
