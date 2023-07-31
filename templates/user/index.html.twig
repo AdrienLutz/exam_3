@@ -37,10 +37,10 @@
                 <td>{{ user.dateSortie ? user.dateSortie|date('Y-m-d') : '' }}</td>
                 <td>
                     {% if app.user is not null %}
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                    <a class=" btn btn-success" href="{{ path('app_user_show', {'id': user.id}) }}">Détail</a>
                     {% endif %}
                     {% if app.user is not null and app.user.hasRole("ROLE_RH")%}
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a class=" btn btn-secondary" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
                     {% endif %}
                 </td>
             </tr>
@@ -52,6 +52,6 @@
         </tbody>
     </table>
     {% if app.user is not null and app.user.hasRole("ROLE_RH")%}
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    <a class=" btn btn-success" href="{{ path('app_user_new') }}">Enregistrer une nouvelle personne</a>
     {% endif %}
 {% endblock %}

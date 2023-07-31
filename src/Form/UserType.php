@@ -86,7 +86,9 @@ class UserType extends AbstractType
 
             ->add('secteur', ChoiceType::class,[
                 "attr" => [
-                    'placeholder' => "Veuillez saisir un secteur",
+                    'placeholder' => '-- Choisissez un secteur --',
+//                    'placeholder' => "Veuillez saisir un secteur",
+                    'label' => 'Service',
                     "class" => "form-control"
                 ],
                 'choices' => [
@@ -99,7 +101,8 @@ class UserType extends AbstractType
 
             ->add('contrat', ChoiceType::class,[
                 "attr" => [
-                    'placeholder' => "Veuillez saisir un type de contrat (CDI, CDD, interim",
+                    'label' => 'Type de contrat',
+                    'placeholder' => '-- Choisissez un type de contrat --',
                     "class" => "form-control"
                 ],
                 'choices' => [
