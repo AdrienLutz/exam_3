@@ -10,17 +10,17 @@
 
 <div class="example-wrapper">
 {#    <h1>Hello {{ app.user.nom }}! ✅</h1>#}
-    <h1>Hello ! ✅</h1>
+    <h1>Bienvenue sur l'annuaire de l'entreprise ✅</h1>
     <div>
-        {% if app.user %}
-            <a href="{{  path ('app_logout') }}"> Me déconnecter </a>
-            {% if app.user.hasRole('ROLE_RH') %}
-                <p>tu es l'admin</p>
-            {% endif %}
-        {% endif %}
-        {% if app.user is null %}
-            <a href="{{  path ('app_login') }}"> Me connecter </a>
-        {% endif %}
+{#        {% if app.user %}#}
+{#            <a href="{{  path ('app_logout') }}"> Me déconnecter </a>#}
+{#            {% if app.user.hasRole('ROLE_RH') %}#}
+{#                <p>tu es l'admin</p>#}
+{#            {% endif %}#}
+{#        {% endif %}#}
+{#        {% if app.user is null %}#}
+{#            <a href="{{  path ('app_login') }}"> Me connecter </a>#}
+{#        {% endif %}#}
 
     </div>
 </div>

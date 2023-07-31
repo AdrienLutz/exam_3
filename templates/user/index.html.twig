@@ -28,7 +28,10 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
-                <td> <img src="{{ asset('uploads/user/'~user.photo) }}" width="45px" height="45px"></td>
+{#                <td> <img src="{{ asset('uploads/user/'~user.photo) }}" width="45px" height="45px"></td>#}
+{#                {% if user.photo %}#}
+                    <td> <img src="{{ asset('uploads/user/'~user.photo) }}" width="45px" height="45px"></td>
+{#                {% endif %}#}
                 <td>{{ user.secteur }}</td>
                 <td>{{ user.contrat }}</td>
                 <td>{{ user.dateSortie ? user.dateSortie|date('Y-m-d') : '' }}</td>

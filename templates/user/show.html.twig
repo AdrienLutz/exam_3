@@ -33,7 +33,9 @@
             </tr>
             <tr>
                 <th>Photo</th>
+{#                {% if user.photo is null %}#}
                 <td> <img src="{{ asset('uploads/user/'~user.photo) }}" width="45px" height="45px"></td>
+{#                {% endif %}#}
             </tr>
             <tr>
                 <th>Secteur</th>
@@ -50,10 +52,12 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_index') }}">Retour à la liste</a>
+    <a class=" btn btn-success" href="{{ path('app_user_index') }}">Retour à la liste</a>
 
 
 
-    {{ include('user/_delete_form.html.twig') }}
+    {% if app.user is not null and app.user.hasRole("ROLE_RH")%}
+        {{ include('user/_delete_form.html.twig') }}
+    {% endif %}
 
 {% endblock %}

@@ -4,24 +4,18 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
-
 
 
 class UserType extends AbstractType
@@ -30,29 +24,28 @@ class UserType extends AbstractType
     {
 
         $builder
-            ->add('email')
+            ->add('email', EmailType::class,[
+                'attr' => [
+                'placeholder' => "Veuillez saisir un email",
+                ],
+            ])
 
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'placeholder' => "Veuillez saisir un mot de passe avec 8 caractères, 1 chiffre et 1 lettre",
+                    'autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
                     ]),
                     new Length([
                         'min' => 8,
-
-
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                     new Regex([
-//                        'pattern' => '/^(?=.[A-Za-z])(?=.\d).{8,}$/',
                         'pattern' => '/(?=\S*[a-z])(?=\S*\d)/',
-//                        'pattern' => '/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9!@#$%^&*()_]+){8,20}$"/',
                         'message' => 'Your password should contain at least 1 number and 1 letter',
                     ]),
                 ],
@@ -60,18 +53,21 @@ class UserType extends AbstractType
 
             ->add('nom', TextType::class, [
                 "attr" => [
+                    'placeholder' => "Veuillez saisir un nom",
                     "class" => "form-control"
                 ]
             ])
 
             ->add('prenom', TextType::class, [
                 "attr" => [
+                    'placeholder' => "Veuillez saisir un prénom",
                     "class" => "form-control"
                 ]
             ])
 
             ->add('photo', FileType::class, [
                 "attr" => [
+                    'placeholder' => "Veuillez uploader une photo",
                     "class" => "form-control"
                 ],
                 'mapped' => false,
@@ -88,19 +84,11 @@ class UserType extends AbstractType
                 ],
             ])
 
-//            ->add('secteur', TextType::class, [
-//                "attr" => [
-//                    "class" => "form-control",
-//                        ]
-//            ])
-
-//            ->add('contrat', TextType::class, [
-//                "attr" => [
-//                    "class" => "form-control"
-//                ]
-//            ])
-
             ->add('secteur', ChoiceType::class,[
+                "attr" => [
+                    'placeholder' => "Veuillez saisir un secteur",
+                    "class" => "form-control"
+                ],
                 'choices' => [
                     'RH' => 'rh',
                     'Informatique' => 'info',
@@ -110,6 +98,10 @@ class UserType extends AbstractType
             ])
 
             ->add('contrat', ChoiceType::class,[
+                "attr" => [
+                    'placeholder' => "Veuillez saisir un type de contrat (CDI, CDD, interim",
+                    "class" => "form-control"
+                ],
                 'choices' => [
                     'CDI' => 'cdi',
                     'CDD' => 'cdd',
@@ -118,23 +110,15 @@ class UserType extends AbstractType
             ])
 
 
-
-
-//            ->add('date_sortie', DateType::class,[
-//                "attr" => [
-//                    "class" => "form-control"
-//                ]
-//            ])
-
-            ->add('date_sortie')
-
-            ->add('valider', SubmitType::class, [
+            ->add('date_sortie', DateType::class,[
                 "attr" => [
-                    "class" => "btn btn-success"
+                    "class" => "form-control"
                 ]
             ])
+
         ;
 
+//        ----- tentative n°1 de choix conditionnel CDI/date -----
 //        if ('choices' == 'cdi'){
 ////                $builder->add('date_sortie', disabledType::class, [
 //            $builder->add('date_sortie', HiddenType::class, [
@@ -142,9 +126,10 @@ class UserType extends AbstractType
 //            ]);
 //        }
 
-        if('choices' =='cdi'){
-            $builder->remove('date_sortie');
-        }
+//        ----- tentative n°2 de choix conditionnel CDI/date -----
+//        if('choices' =='cdi'){
+//            $builder->remove('date_sortie');
+//        }
 
     }
 
