@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,7 +95,7 @@ class UserController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_RH')]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager,SluggerInterface $slugger, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager,SluggerInterface $slugger, UserPasswordHasherInterface $userPasswordHasher, Filesystem $filesystem): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -118,6 +119,8 @@ class UserController extends AbstractController
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
 
 
+
+
                 try {
                     $photo->move(
                         $this->getParameter('photo_directory'),
@@ -126,11 +129,15 @@ class UserController extends AbstractController
                 } catch (FileException $e) {
                     dd($e);
                 }
-
+// supprimer l'ancienne image
+                $filesystem->remove(['symlink', 'public/uploads/'.$user->getPhoto(), 'activity.log']);
                 $form = $form->getData();
-                $form->setPhoto($newFilename);
+//
+//                $form->setPhoto($newFilename);
+//                je remplace dans user l'ancienne image par la nouvelle
+                $user->setPhoto($newFilename);
             }
-
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);

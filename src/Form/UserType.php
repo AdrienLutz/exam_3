@@ -87,7 +87,6 @@ class UserType extends AbstractType
             ->add('secteur', ChoiceType::class,[
                 "attr" => [
                     'placeholder' => '-- Choisissez un secteur --',
-//                    'placeholder' => "Veuillez saisir un secteur",
                     'label' => 'Service',
                     "class" => "form-control"
                 ],
